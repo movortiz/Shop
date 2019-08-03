@@ -2,6 +2,7 @@
 {
     using System;
     using System.ComponentModel.DataAnnotations;
+    using System.Threading.Tasks;
 
     public class Product : IEntity
     {
