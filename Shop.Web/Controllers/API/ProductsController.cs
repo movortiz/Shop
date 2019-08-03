@@ -18,11 +18,5 @@
         {
             return Ok(this.productRepository.GetAll());
         }
-
-        [HttpGet]
-        public IActionResult GetProducts2()
-        {
-            return Ok(this.productRepository.GetAll());
-        }
     }
 }
