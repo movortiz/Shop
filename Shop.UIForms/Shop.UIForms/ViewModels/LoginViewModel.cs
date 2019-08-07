@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight.Command;
+using Shop.UIForms.Views;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -52,11 +53,8 @@ namespace Shop.UIForms.ViewModels
                 return;
             }
 
-            await Application.Current.MainPage.DisplayAlert(
-                    "Ok",
-                    "Test passed",
-                    "Ok"
-                    );
+            MainViewModel.GetInstance().Products = new ProductsViewModel();
+            await Application.Current.MainPage.Navigation.PushAsync(new ProductsPage());
             return;
         }
     }

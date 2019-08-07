@@ -3,6 +3,7 @@
     using Data;
     using Data.Entities;
     using Helpers;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Shop.Web.Models;
@@ -10,6 +11,8 @@
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
+
+    [Authorize]
     public class ProductsController : Controller
     {
         private readonly IProductRepository productRepository;
@@ -24,7 +27,7 @@
         // GET: Products
         public IActionResult Index()
         {
-            return View(this.productRepository.GetAll().OrderBy(p=> p.Name));
+            return View(this.productRepository.GetAll().OrderBy(p => p.Name));
         }
 
         // GET: Products/Details/5
@@ -80,8 +83,7 @@
 
                 var product = this.ToProduct(view, path);
 
-                //TODO Get User from currently logged user.
-                product.User = await this.userHelper.GetUserByEmailAsync("marco.vinicio.ortiz@gmail.com");
+                product.User = await this.userHelper.GetUserByEmailAsync(this.User.Identity.Name);
                 await this.productRepository.CreateAsync(product);
                 return RedirectToAction(nameof(Index));
             }
@@ -151,8 +153,7 @@
                         path = $"~/images/Products/{file}";
                     }
 
-                    // TODO: Pending to change to: this.User.Identity.Name
-                    view.User = await this.userHelper.GetUserByEmailAsync("marco.vinicio.ortiz@gmail.com");
+                    view.User = await this.userHelper.GetUserByEmailAsync(this.User.Identity.Name);
                     var product = this.ToProduct(view, path);
                     await this.productRepository.UpdateAsync(product);
                 }
@@ -171,7 +172,6 @@
             }
             return View(view);
         }
-
 
         private ProductViewModel ToProductViewModel(Product product)
         {
