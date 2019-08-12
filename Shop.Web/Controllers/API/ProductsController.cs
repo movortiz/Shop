@@ -1,9 +1,12 @@
 ﻿namespace Shop.Web.Controllers.API
 {
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
+    using Microsoft.AspNetCore.Authorization;
     using Data;
 
     [Route("api/[Controller]")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ProductsController : Controller
     {
 
